@@ -3,11 +3,11 @@
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/sena/Devel/kataba/kataba/kataba_db.sqlite',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'python',                      # Or path to database file if using sqlite3.
+        'USER': 'adminq9veewn',                      # Not used with sqlite3.
+        'PASSWORD': 'D_F9Lc34fQsJ',                  # Not used with sqlite3.
+        'HOST': url.hostname,
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
