@@ -1,0 +1,56 @@
+{% extends "base_board.html" %}
+
+{% block title %}
+/{{board.name}}/: #{{page}}
+{% endblock %}
+
+{% block cent_title %}
+    Isolach: <span class='orange'>/{{board.name}}/</span>
+{% endblock %}
+
+{% block cloud_url %}/{{board.name}}/cloud/{% endblock %}
+
+{% block form %}
+<div id='div_form'>
+    <form method="post" id='send_form' action="/{{board.name}}/add_thread" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class='fullcenter'><b class='topic' id='form_switch'>Создать тред</b></div>
+        <div id='form_cont'>
+            <input type='hidden' name='board_name' id='board_name' value='{{board.name}}'>
+            <table id='form_table'>
+                {{ thread_form }}
+            </table>
+            <div class='button' id='send_thread'>Отправить</div>
+        </div>  
+    </form>
+    
+</div>
+{% endblock %}
+
+{% block content %}
+    {% for bundle in threads %}
+        {% with thread=bundle.thread %}
+            {% include "parts/thread.html" %}
+        {% endwith %}
+        {{ User.password }}
+        <div class='post_cont' id='post_cont'>
+            {% for post in bundle.posts %}
+                {% include "parts/post.html" %}
+            {% endfor %}
+        </div>
+    {% empty %}
+        <div class='fullcenter'><h1>Тредов на этой странице нет.</h1></div>
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+    <div id='bottom_cont'>
+        <div class='fullcenter' id='pages'>
+            {% if is_paginated %}
+                {% for page in page_obj.paginator.page_range %}
+                    <div class='button' data-name='{{board.name}}/{{page}}'>{{page}}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
