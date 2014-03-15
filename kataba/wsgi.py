@@ -20,9 +20,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kataba.settings")
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-from django.core.wsgi import get_wsgi_application
+from django.core.handlers.wsgi
 if __name__ == "__main__": #Need this line for Openshift
-    application = get_wsgi_application()
+    application = django.core.handlers.wsgi.WSGIHandler()
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
