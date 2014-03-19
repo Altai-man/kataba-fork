@@ -1,3 +1,3 @@
 kataba-fork
 ===========
- Kataba fork, because I try to learn web programming. Not many changes at this moment, but heavy development in future.
+ This repository will be deleted in 1 week. New engine coming later.
