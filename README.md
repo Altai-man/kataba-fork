@@ -1,3 +1,3 @@
 kataba-fork
 ===========
- This repository will be deleted in 1 week. New engine coming later.
+ This is a fork of kataba - imageboard engine by Ktan32.
