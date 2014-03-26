@@ -4,13 +4,13 @@ function temp_look(is_nsfw,selector) {
         selector.mouseenter(function() {
             $(this).css('opacity','1.0');
         });
-        
+
         selector.mouseleave(function() {
             $(this).css('opacity','0');
         });
     } else
         selector.unbind();
-        
+
 }
 
 function show_linked(selector) {
@@ -21,16 +21,16 @@ function show_linked(selector) {
             var cont = $(this).children('div.post_quote');
             var link_to = $(this).children('a.link_to_post').html().slice(8);
             var type = '';
-            
+
             if (link_to[0] == 't')
                 type = 'thread';
             else
                 type = 'post';
-            
+
             var id = parseInt(link_to.slice(1));
-            
+
             var url = '/'+type+'/get/'+id+'/';
-            
+
             if (!cont.html().length) {
                 $.ajax({
                     type:'GET',
@@ -49,7 +49,7 @@ function show_linked(selector) {
                     success: function(output) {
                         cont.html(output.answer);
                         selector = $(selector.selector); // Updating selector because new posts can contain new links.
-                        
+
                         // Warning! Recursive call!
                         if (selector.length != original_selector.length) {
                             original_selector.unbind();
@@ -58,18 +58,18 @@ function show_linked(selector) {
                     },
                 });
             }
-            
+
             cont.fadeIn();
         },
         function() {
             var cont = $(this).children('div.post_quote');
             cont.fadeOut();
         }
-    
+
     );
     return selector;
 }
-    
+
 $(document).ready(function() {
     // Hide/show left upper menu
     $('#switch').click(function() {
@@ -82,7 +82,7 @@ $(document).ready(function() {
             $('#switch').html('&lt;');
         }
     });
-    
+
     // NSFW option and it's cookies
     if ($.cookie('nsfw') == 'true') {
         var selector = $('img.post_img');
@@ -90,7 +90,7 @@ $(document).ready(function() {
         $('#nsfw').attr('checked',true);
         temp_look(true,selector);
     }
-    
+
     $('#nsfw').change(function() {
         var nsfw = $('#nsfw').is(':checked');
         var selector = $('img.post_img');
@@ -105,13 +105,13 @@ $(document).ready(function() {
             temp_look(false,selector);
         }
     });
-    
+
     // Create thread via form
     $('#send_thread').click(function() {
         var csrftoken = $.cookie('csrftoken');
         var board_name = $('#board_name').val()
         var form = new FormData(document.getElementById('send_form'));
-        
+
         $.ajax({
             type:'POST',
             crossDomain: false,
@@ -141,7 +141,7 @@ $(document).ready(function() {
         var thread_id = $('#thread_id').val();
         var board_name =  $('#board_name').val();
         var form = new FormData(document.getElementById('send_form'));
-        
+
         $.ajax({
             type:'POST',
             crossDomain: false,
@@ -157,12 +157,17 @@ $(document).ready(function() {
             success: function(output) {
                 if (output.success == true) {
                     $('#refresh').click();
+                    $("#id_text").val( "" );
+                    $("#id_image1").val( "" );
+                    $("#id_image2").val( "" );
+                    $("#id_image3").val( "" );
+                    $("#id_image4").val( "" );
                 }
                 $('#form_table').html(output.form);
             },
         });
     });
-    
+
     // Enabling pages
     $('#pages div').click(function() {
         document.location.href='/'+$(this).attr('data-name');
@@ -175,19 +180,30 @@ $(document).ready(function() {
         $(this).attr('src',$(this).attr('data-alt_name'));
         $(this).attr('data-alt_name',temp);
     });
-    
+
     // Link to post/thread
+
     $('span.post_link').click(function() {
-        var text_field = $('#id_text');
-        if (text_field.length)
-            text_field.val(text_field.val()+'>>'+$(this).html().slice(1));
+        if (document.URL.indexOf("thread") !== -1) {
+            $('#div_form').insertAfter($(this).parent().parent().parent());
+            $('#div_form').css("margin", "0 auto 15pt 40pt");
+            $('#send_search').css("display", "none");
+            var text_field = $('#id_text');
+            if (text_field.length)
+                text_field.val(text_field.val()+'>>'+$(this).html().slice(1)+'\n');
+        }
+        else {
+            if (text_field.length)
+                text_field.val(text_field.val()+'>>'+$(this).html().slice(1)+'\n');
+        }
     });
-    
+
+
     // to the start
     $('#up').click(function() {
         document.location.href = window.location.pathname+'#';
     });
-    
+
     // AJAX request for new posts in thread
     $('#refresh').click(function() {
         var csrftoken = $.cookie('csrftoken');
@@ -207,7 +223,7 @@ $(document).ready(function() {
             success: function(output) {
                 if (output.is_new) {
                     // Fast, but old version without animation.
-//                   $('#post_cont').html($('#post_cont').html()+output.new_threads);
+                    //                   $('#post_cont').html($('#post_cont').html()+output.new_threads);
 
                     // Animated version
                     var content = "<div class='inv_cont'>"+output.new_threads+"</div>"
@@ -215,12 +231,12 @@ $(document).ready(function() {
                     $('#post_cont div.inv_cont').last().fadeIn(700)
 
                     $('#answer').html('');
-                    
+
                     // move to the page's end
                     var url = location.href;
                     location.href = "#bottom_cont";
                     history.replaceState(null,null,url);
-                    
+
                     // make NSFW new pics
                     $('#nsfw').change()
 
@@ -233,19 +249,38 @@ $(document).ready(function() {
             },
         });
     });
-    
+
+    // Show/hide form for files.
+    $('#id_image1').click(function(){
+        $('#id_image2_container').slideToggle();
+    });
+
+    $('#id_image2').click(function(){
+        $('#id_image3_container').slideToggle();
+    });
+
+    $('#id_image3').click(function(){
+        $('#id_image4_container').slideToggle();
+    });
+
+    // Markup.
+    $('#form_switch').hover(function() {
+        TODO: window();
+    });
+
+
     // Show/hide post form and it's cookie
     $('#form_switch').click(function() {
         if ($.cookie('form') == 'false') {
             $.cookie('form',true,{path: '/'});
-            
+
         }
-        else {  
+        else {
             $.cookie('form',false,{path: '/'});
         }
         $('#form_cont').slideToggle();
     });
-    
+
     if ($.cookie('form') == 'true')
         $('#form_cont').show();
 
@@ -253,7 +288,7 @@ $(document).ready(function() {
     $('#options_button').click(function() {
         $('#options').slideToggle();
     });
-    
+
     // Show/hide quoted posts/threads
     window.links = $('div.link_to_content')
     window.links = show_linked(window.links);
@@ -263,7 +298,7 @@ $(document).ready(function() {
         var search_type = $('#search_type').val();
         var search_place = $('#search_place').val();
         var search_text = $('#search_text').val();
-        
+
         if (search_text.length >= 3)
             document.location.href='/search/'+search_board+'/'+search_type+'/'+search_place+'/'+search_text;
         else

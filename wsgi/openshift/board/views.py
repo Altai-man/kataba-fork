@@ -52,7 +52,7 @@ class BoardView(ListView, BaseBoardClass):
         context['thread_form'] = models.ThreadForm()
         return context
 
-class ThreadView(DetailView, BaseBoardClass):        
+class ThreadView(DetailView, BaseBoardClass):
     model = models.Thread
     template_name = 'thread.html'
     context_object_name = 'thread'
@@ -133,7 +133,7 @@ class CloudView(ListView, BaseBoardClass):
     model = models.Thread
     template_name = 'cloud/cloud.html'
     context_object_name = "threads"
-    
+
     def get_queryset(self):
         return self.board.get_cloud_view()
 

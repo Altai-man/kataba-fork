@@ -1,7 +1,87 @@
-{% load i18n %}
-<form method="post">
-{% csrf_token %}
-{{ form.as_ul }}
-<input type="submit" name="submit" value="{% trans 'Login' %}" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+{% autoescape off %}
+<head>
+  <title>Kasatou</title>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="{% static "board/style.css" %}" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src='{% static "board/script.js" %}'></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.2/jquery.cookie.min.js'></script>
+  <script>
+    $(document).ready(function() {
+        var width = $( window ).width();
+        if (width > 1850 ) {
+            $('#neco').css("left", "48%");
+            $('#neco').css("top", "10%");
+            $('#sub').css("left", "38%");
+            $('#sub').css("top", "-20%");
+            $('#id_username').css("margin-top", "15%");
+            $('#id_username').css("left", "19%");
+            $('#id_password').css("left", "19%");
+            $('#id_password').css("margin-top", "31%");
+        }
+    });
+  </script>
+  <style type="text/css">
+    form {
+    float: left;
+    width: 39%;
+    height: 56%;
+    position: fixed;
+    top: 30%;
+    left: 25%;
+    background-image: url(http://www.kasatou.ru/static/back.png);
+    background-repeat: no-repeat;
+    }
+    #neco {
+    float: right;
+    width: 35%;
+    height: 100%;
+    position: fixed;
+    left: 55%;
+    top: 2%;
+    bottom: 10%;
+    background-image: url(http://www.kasatou.ru/static/neco.jpg);
+    background-repeat: no-repeat;
+    }
+    #footer {
+    position: absolute;
+    }
+
+    #sub:hover {
+    height: 78px;
+    width: 58px;
+    left: 64%;
+    top: 3%;
+    background-repeat: no-repeat;
+    background-image: url(http://www.kasatou.ru/static/button_h.png);
+    }
+
+    #sub {
+    height: 78px;
+    width: 58px;
+    left: 64%;
+    top: 3%;
+    background-repeat: no-repeat;
+    background-image: url(http://www.kasatou.ru/static/button.png);
+    }
+  </style>
+</head>
+<body>
+  {% load i18n %}
+  <div id="content">
+    <div id="neco"></div>
+    <form method="post">
+      {% csrf_token %}
+      <input id="id_username" type="text" name="username" maxlength="254"></input>
+      <input id="id_password" type="password" name="password"></input>
+      <input id="sub" type="submit" name="submit" value="" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+  </div>
+  <div id="footer" class="green">Kasatou. Yet Another Pointless Imageboard.</div>
+</body>
+</html>
+{% endautoescape %}

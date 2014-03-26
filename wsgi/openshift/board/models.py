@@ -31,26 +31,27 @@ class Board(models.Model):
     def get_cloud_view(self):
         # Threads. ("th" 'cause it is shorter)
         threads = Thread.objects.filter(board_id=self).order_by('-update_time')
-        
+
         # How many values should be.
         count = len(threads) + 3 - len(threads) % 3
-        
+
         # Giving back final array
-        f = lambda x,y: y[x] if x < len(y) else []
-        return [[f(k,threads) for k in xrange(i,i+3)] for i in xrange(0,count,3)]
+        f = lambda x, y: y[x] if x < len(y) else []
+        return [[f(k, threads) for k in xrange(i, i+3)] for i in xrange(0, count, 3)]
 
     def get_board_view(self):
         threads = Thread.objects.filter(board_id=self).order_by('-update_time')
         return [dict(thread=th, posts=th.latest_posts()) for th in threads]
-    
+
     def __unicode__(self):
-        return ''.join(['/',self.name,'/'])
-        
+        return ''.join(['/', self.name, '/'])
+
+
 class SearchManager(models.Manager):
-    def search(self,search_text, search_place, board):
+    def search(self, search_text, search_place, board):
         # Making search text safe
         search_text = escape(search_text)
-        
+
         # Where should we search?
         if (search_place == 'topic'):
             query = self.filter(topic__icontains=search_text)
@@ -58,81 +59,127 @@ class SearchManager(models.Manager):
             query = self.filter(text__icontains=search_text)
         elif (search_place == 'both'):
             query = self.filter(models.Q(topic__icontains=search_text) | models.Q(text__icontains=search_text))
-        
+
         return query
 
-        
+
 class BasePostModel(models.Model):
     name = models.CharField(max_length=14, default=u'Anonymous')
     text = models.TextField(max_length=8000)
     topic = models.CharField(max_length=40)
     date = models.DateTimeField('%Y-%m-%d %H:%M:%S', auto_now_add=True)
-    image = models.ImageField(upload_to='.')
-    
+    image1 = models.ImageField(upload_to='.')
+    image2 = models.ImageField(upload_to='.')
+    image3 = models.ImageField(upload_to='.')
+    image4 = models.ImageField(upload_to='.')
+
     # Link to board
     board_id = models.ForeignKey('board')
-    
+
     # Custom Manager
     objects = SearchManager()
 
     # Delete image and it's thumbnail
     def delete_images(self):
-        if self.image:
-            images = [''.join([settings.MEDIA_ROOT,'/',self.image.name]),
-                      ''.join([settings.MEDIA_ROOT,'/thumbnails',self.image.name])]
+        if self.image1:
+            images = [''.join([settings.MEDIA_ROOT, '/', self.image1.name]),
+                      ''.join([settings.MEDIA_ROOT, '/thumbnails', self.image1.name])]
             for image in images:
                 if os.path.isfile(image):
-                    os.remove(image)    
-            
+                    os.remove(image)
+        if self.image2:
+            images = [''.join([settings.MEDIA_ROOT, '/', self.image2.name]),
+                      ''.join([settings.MEDIA_ROOT, '/thumbnails', self.image2.name])]
+            for image in images:
+                if os.path.isfile(image):
+                    os.remove(image)
+        if self.image3:
+            images = [''.join([settings.MEDIA_ROOT, '/', self.image3.name]),
+                      ''.join([settings.MEDIA_ROOT, '/thumbnails', self.image3.name])]
+            for image in images:
+                if os.path.isfile(image):
+                    os.remove(image)
+        if self.image4:
+            images = [''.join([settings.MEDIA_ROOT, '/', self.image4.name]),
+                      ''.join([settings.MEDIA_ROOT, '/thumbnails', self.image4.name])]
+            for image in images:
+                if os.path.isfile(image):
+                    os.remove(image)
 
     def make_thumbnail(self):
         """Method which makes thumbnail. Surprise?"""
-        if self.image:
-            ratio = min(settings.PIC_SIZE/self.image.height,settings.PIC_SIZE/self.image.width)
-            thumbnail = Image.open(self.image.path)
-            thumbnail.thumbnail((int(self.image.width*ratio),int(self.image.height*ratio)),Image.ANTIALIAS)
-            thumbnail.save(''.join([settings.MEDIA_ROOT,'/thumbnails/',self.image.name]),thumbnail.format)
+        if self.image1:
+            ratio = min(settings.PIC_SIZE/self.image1.height, settings.PIC_SIZE/self.image1.width)
+            thumbnail = Image.open(self.image1.path)
+            thumbnail.thumbnail((int(self.image1.width*ratio), int(self.image1.height*ratio)), Image.ANTIALIAS)
+            thumbnail.save(''.join([settings.MEDIA_ROOT, '/thumbnails/', self.image1.name]), thumbnail.format)
+        if self.image2:
+            ratio = min(settings.PIC_SIZE/self.image2.height, settings.PIC_SIZE/self.image2.width)
+            thumbnail = Image.open(self.image2.path)
+            thumbnail.thumbnail((int(self.image2.width*ratio), int(self.image2.height*ratio)), Image.ANTIALIAS)
+            thumbnail.save(''.join([settings.MEDIA_ROOT, '/thumbnails/', self.image2.name]), thumbnail.format)
+        if self.image3:
+            ratio = min(settings.PIC_SIZE/self.image3.height, settings.PIC_SIZE/self.image3.width)
+            thumbnail = Image.open(self.image3.path)
+            thumbnail.thumbnail((int(self.image3.width*ratio), int(self.image3.height*ratio)), Image.ANTIALIAS)
+            thumbnail.save(''.join([settings.MEDIA_ROOT, '/thumbnails/', self.image3.name]), thumbnail.format)
+        if self.image4:
+            ratio = min(settings.PIC_SIZE/self.image4.height, settings.PIC_SIZE/self.image4.width)
+            thumbnail = Image.open(self.image4.path)
+            thumbnail.thumbnail((int(self.image4.width*ratio), int(self.image4.height*ratio)), Image.ANTIALIAS)
+            thumbnail.save(''.join([settings.MEDIA_ROOT, '/thumbnails/', self.image4.name]), thumbnail.format)
             return True
         else:
             return False
-        
+
     @staticmethod
     def markup(string):
         """ Makes markup for post and thread text. Strings will be safe. """
         string = escape(string)
         markups = [
             # quote
-            [r'(?P<text>(?<!(&gt;))&gt;(?!(&gt;)).+)', r'<span class="quote">\g<text></span>'], 
-            
+            [r'(?P<text>(?<!(&gt;))&gt;(?!(&gt;)).+)', r'<span class="quote">\g<text></span>'],
+
             # bold **b**
-            [r'\*\*(?P<text>[^*%]+)\*\*' ,r'<b>\g<text></b>'], 
-            
+            [r'\*\*(?P<text>[^*%]+)\*\*', r'<b>\g<text></b>'],
+
             # cursive *i*
             [r'\*(?P<text>[^*%]+)\*', r'<i>\g<text></i>'],
-            
+
+            # deleted [s]s[/s]
+            [r'\[s\](?P<text>.+)\[\/s\]', r'<del>\g<text></del>'],
+
+            # monospace [code]code[/code]
+            [r'\[code\](?P<text>.+)\[\/code\]', r'<code>\g<text></code>'],
+
             #spoiler %%s%%
-            [r'\%\%(?P<text>[^*%]+)\%\%',r'<span class="spoiler">\g<text></span>'],
-            
+            [r'\%\%(?P<text>[^*%]+)\%\%', r'<span class="spoiler">\g<text></span>'],
+
             # link to thread >t14
             [r'\&gt;\&gt;t(?P<id>[0-9]+)',
-            r'<div class="link_to_content"><a class="link_to_post" href="/thread/\g<id>">&gt;&gt;t\g<id></a><div class="post_quote"></div></div>'],
-            
+             r'<div class="link_to_content"><a class="link_to_post" href="/thread/\g<id>">&gt;&gt;t\g<id></a><div class="post_quote"></div></div>'],
+
             # link to post >p88
             [r'\&gt;\&gt;p(?P<id>[0-9]+)',
-            r'<div class="link_to_content"><a class="link_to_post" href="/post/\g<id>">&gt;&gt;p\g<id></a><div class="post_quote"></div></div>'], 
-            
+             r'<div class="link_to_content"><a class="link_to_post" href="/post/\g<id>">&gt;&gt;p\g<id></a><div class="post_quote"></div></div>'],
+
             # new line
-            [r'\n',r'<br>'], 
+            [r'\n', r'<br>'],
+
+            # link
+            [r'(?P<link>(https?)?:?\/?\/?(www)?\.?[A-Za-z]+\.[a-z]+(\/[-\?=/A-Za-z0-9]*)?)', r'<a href="\g<link>"><link></a>'],
+
         ]
         for one_markup in markups:
             string = re.sub(one_markup[0], one_markup[1], string)
         return string
-        
+
     def __unicode__(self):
-        return ''.join([self.topic,': ',self.text[:40],', ',str(self.date)])
-    
+        return ''.join([self.topic, ': ', self.text[:40], ', ', str(self.date)])
+
     class Meta:
         abstract = True
+
 
 class Thread(BasePostModel):
     # Removing old threads
@@ -141,42 +188,59 @@ class Thread(BasePostModel):
         threads_to_delete = cls.objects.filter(board_id=board).order_by('-update_time')[board.pages*settings.THREADS:]
         for th in threads_to_delete:
             th.delete()
-    
-    def save(self,*args, **kwargs):
-        super(Thread,self).save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        super(Thread, self).save(*args, **kwargs)
         # No more old threads!
         self.remove_old_threads(self.board_id)
 
-    def latest_posts(self,count=3):
-        posts = reversed(Post.objects.filter(thread_id=self).order_by('-id')[:count]) # 9,8,7
+    def latest_posts(self, count=3):
+        posts = reversed(Post.objects.filter(thread_id=self).order_by('-id')[:count])  # 9,8,7
         return posts
 
     post_count = models.IntegerField(default=0)
     update_time = models.DateTimeField('%Y-%m-%d %H:%M:%S', auto_now_add=True)
 
-class Post(BasePostModel):        
-    thread_id = models.ForeignKey('thread') 
+
+class Post(BasePostModel):
+    # Link to thread
+    thread_id = models.ForeignKey('thread')
     sage = models.BooleanField(default=False)
 
+
 class ThreadForm(forms.ModelForm):
-    captcha = CaptchaField()
+    # captcha = CaptchaField()
+
+    def __init__(self, *args, **kwargs):
+        super(ThreadForm, self).__init__(*args, **kwargs)
+        self.fields['image1'].label = 'Pic'
+
     class Meta:
         model = Thread
-        fields = ['topic','text','image']
+        fields = ['topic', 'text', 'image1']
+
 
 class PostForm(forms.ModelForm):
     # captcha = CaptchaField()
     def __init__(self, *args, **kwargs):
-        super(PostForm,self).__init__(*args, **kwargs)
+        super(PostForm, self).__init__(*args, **kwargs)
         # Images and sage are not required for posts
-        self.fields['image'].required = False
+        self.fields['image1'].required = False
+        self.fields['image1'].label = 'Pic'
+        self.fields['image2'].required = False
+        self.fields['image2'].label = 'Pic'
+        self.fields['image3'].required = False
+        self.fields['image3'].label = 'Pic'
+        self.fields['image4'].required = False
+        self.fields['image4'].label = 'Pic'
         self.fields['sage'].required = False
-	self.fields['topic'].required = False
-        
+        self.fields['sage'].label = 'Sage'
+        self.fields['topic'].required = False
+        self.fields['topic'].label = 'Topic'
+
     class Meta:
         model = Post
-        fields = ['name','topic','sage','text','image']
-
+        fields = ['name', 'topic', 'sage', 'text', 'image1',  'image2',  'image3',  'image4']
 
 
 class UserManager(BaseUserManager):
@@ -247,9 +311,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField(label=_('Password'),
-        help_text=_('Raw passwords are not stored, so there is no way to see '
-                    'this user\'s password, but you can change the password '
-                    'using <a href="password/">this form</a>.'))
+                                         help_text=_('Raw passwords are not stored, so there is no way to see '
+                                                     'this user\'s password, but you can change the password '
+                                                     'using <a href="password/">this form</a>.'))
 
     class Meta:
         model = User
@@ -274,10 +338,10 @@ class UserCreationForm(forms.ModelForm):
         'password_mismatch': _("The two password fields didn't match."),
     }
     password1 = forms.CharField(label=_("Password"),
-        widget=forms.PasswordInput)
+                                widget=forms.PasswordInput)
     password2 = forms.CharField(label=_("Password confirmation"),
-        widget=forms.PasswordInput,
-        help_text=_("Enter the same password as above, for verification."))
+                                widget=forms.PasswordInput,
+                                help_text=_("Enter the same password as above, for verification."))
 
     class Meta:
         model = User
@@ -290,7 +354,6 @@ class UserCreationForm(forms.ModelForm):
         except User.DoesNotExist:
             return email
         raise forms.ValidationError(self.error_messages['duplicate_email'])
-
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -316,6 +379,7 @@ class UserCreationForm(forms.ModelForm):
 def pre_delete_callback(sender, instance, **kwargs):
     instance.delete_images()
 
+
 # Callbacks here because save does not always mean new object
 @receiver(pre_save, sender=Post)
 @receiver(pre_save, sender=Thread)
@@ -324,7 +388,7 @@ def pre_save_callback(sender, instance, **kwargs):
     if instance.id is None:
         # Topic must be safe
         instance.topic = escape(instance.topic)
-        
+
         # Markup
         instance.text = instance.markup(instance.text)
 

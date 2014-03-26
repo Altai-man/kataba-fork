@@ -2,7 +2,7 @@ body {
     margin: 0;
     background-color: #1E1E1E;
     color: #D0D0D0;
-    font-family: Verdana;
+    font-family: Verdana, Geneva, Arial, sans-serif;
 }
 
 html,body {
@@ -10,7 +10,7 @@ html,body {
 }
 
 h1,h2,h3 {
-    color: #A2C400;
+    color: #F19F00;
 }
 
 #wrapper {
@@ -93,9 +93,10 @@ div.post_header_right {
 
 div.post_text {
     padding: 0 15pt 0 15pt;
+    text-align: left;
 }
 
-div.thread, div.post, #div_form {   
+div.thread, div.post, #div_form {
     display: block;
     text-align: justify;
     clear: both;
@@ -114,7 +115,6 @@ div.thread {
 
 div.post {
     margin: 0.25em 0.5em 0.25em 2.5em;
-    position: float;
     float: left;
     min-width: 550px;
 }
@@ -124,7 +124,7 @@ b.sage {
 }
 
 span.orange, #switch {
-    color: #E6AD04;
+    color: #3399CC;
 }
 
 span.quote {
@@ -133,7 +133,7 @@ span.quote {
 }
 
 a {
-    color: #E6AD04;
+    color: #CCCCCC;
     text-decoration: none;
 }
 
@@ -151,7 +151,7 @@ a:hover, #form_switch:hover {
 }
 
 b.topic, span.green, #options_button, #cloud {
-    color: #A2C400;
+    color: #3399CC;
 }
 
 #pages {
@@ -199,10 +199,11 @@ div.img_cloud_cont {
 
 #div_form {
     display: table;
-    margin: 0 auto 15pt auto;
+    margin: 0px 30px;
     padding: 5pt 10pt 6pt 10pt;
-    text-align: center;
+    text-align: right;
     min-height: 0;
+    clear: both;
 }
 
 #div_form table {
@@ -224,7 +225,7 @@ div.button {
 
 div.button:hover {
     cursor: pointer;
-    border-color: #A2C400;
+    border-color: #F19F00;
 }
 
 div.button:active {
@@ -268,8 +269,9 @@ span.spoiler:hover {
 }
 
 #form_cont {
-    display: none;
+    display: inline;
     margin-top: 5pt;
+    float:left;
 }
 
 #content_wrapper {
@@ -306,4 +308,202 @@ div.post_quote div.post {
 
 div.inv_cont {
     display: none;
+}
+
+#id_topic {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+    width: 82%;
+}
+
+#id_name {
+    margin: 1px;
+    width: 82%;
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+}
+
+
+#id_text {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+    width: 82%;
+}
+
+#id_image1 {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+    width: 82%;
+}
+
+#id_image2_container {
+    display: none;
+}
+
+#id_image2 {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+    width: 82%;
+}
+
+#id_image3_container {
+    display: none;
+}
+
+#id_image3 {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+    width: 82%;
+}
+
+#id_image4_container {
+    display: none;
+}
+
+#id_image4 {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+    width: 82%;
+}
+
+#id_captcha_1 {
+    background-color: #333333;
+    color: #FFFFFF;
+    border-style: solid;
+    border-color: #666666;
+    border-width: 1px;
+    margin: 2px 0px 2px 0px;
+}
+
+captcha {
+    margin: 2px 0px 2px 0px;
+}
+
+#send_post.button {
+    margin: 2px 35% 2px;
+}
+
+#send_thread.button {
+    margin: 2px 35% 2px;
+}
+
+.kill_button {
+    display: none;
+}
+
+label {
+    float: left;
+    width: 10px;
+    padding-right:10px;
+    margin: 2px 0px 2 px 0px;
+}
+
+#footer
+{
+    font-size: 14px;
+    position: static;
+    text-align: center;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 20px;
+    visibility: visible;
+    display: block;
+}
+
+#picture {
+    display: inline;
+}
+
+input
+{
+    top: -1%;
+    margin: 5%;
+    background-color: transparent;
+    border-style: none;
+    color: #CCCCCC;
+}
+
+#id_username_container {
+    float: left;
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 20%;
+}
+
+#id_password_container {
+    float: left;
+    position: absolute;
+    margin-top: 43%;
+    margin-left: 15%;
+}
+
+#id_username {
+    float: right;
+    position: absolute;
+    margin-top: 20%;
+    left: 30%;
+    width: 305px;
+}
+
+#id_password{
+    float: right;
+    position: absolute;
+    margin-top: 43%;
+    width: 305px;
+    left: 30%;
+}
+
+#sub {
+    margin-left: 25%;
+    float: right;
+    position: absolute;
+    margin-top: 56%;
+    left: 50%;
+}
+
+.couponcode:hover .coupontooltip {
+    display: block;
+}
+
+.coupontooltip {
+    display: none;
+    margin-left: 350px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1000;
+    width:200px;
+    height:100px;
+    background-color: #3D3D3D;
+}
+
+.couponcode {
+    margin:0px;
 }

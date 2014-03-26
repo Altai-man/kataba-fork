@@ -15,7 +15,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('name', 'example@example.com'),
+     ('Altai', 'altay-man@mail.ru'),
 )
 
 MANAGERS = ADMINS
@@ -74,7 +74,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'images')
+MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR'), 'images')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -112,7 +112,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make a dictionary of default keys
-default_keys = { 'SECRET_KEY': 'vm4rl5*ymb@7ghblasdg76twq9w(u69hi--%$5xrh!xk(t%hw' }
+default_keys = { 'SECRET_KEY': '*key_here*' }
 
 # Replace default keys with dynamic values if we are in OpenShift
 use_keys = default_keys

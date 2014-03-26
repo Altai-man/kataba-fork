@@ -7,7 +7,6 @@
       <b class='white'>Anonymous</b>
       {% endif %}
       <span class='orange post_link'>#p{{post.id}}</span> {{post.date|date:"F d H:i:s"}}
-      {% if post.sage %}<b class='sage'>SAGE</b>{%endif%}
     </div>
     {% if post_show_answer %}
     <div class='post_header_right'>
@@ -16,12 +15,37 @@
     {% endif %}
   </div>
   <div class='post_text'>
-    {% if post.image %}
+    {% if post.image1 %}
     <div class='img_cont'>
       <div>
-        <a href="/images/{{post.image.name}}">{{post.image.name|slice:"2:"|truncatechars:19}}
-          {{post.image.width}}x{{post.image.height}}</a>
-      </div><img class='post_img' src='/images/thumbnails/{{post.image.name}}' data-alt_name='/images/{{post.image.name}}' alt='{{post.image.name|slice:"2:"}}' />
+        <a href="/images/{{post.image1.name}}">{{post.image1.name|slice:"2:"|truncatechars:19}}
+          {{post.image1.width}}x{{post.image1.height}}</a>
+      </div><img class='post_img' src='/images/thumbnails/{{post.image1.name}}' data-alt_name='/images/{{post.image1.name}}' alt='{{post.image1.name|slice:"2:"}}' />
+    </div>
+    {% endif %}
+
+    {% if post.image2 %}
+    <div class='img_cont'>
+      <div><a href="/images/{{post.image2.name}}">{{post.image2.name|slice:"2:"|truncatechars:19}} {{post.image2.width}}x{{post.image2.height}}</a></div>
+      <img class='post_img' src='/images/thumbnails/{{post.image2.name}}' data-alt_name='/images/{{post.image2.name}}' alt='{{post.image2.name|slice:"2:"}}'>
+    </div>
+    {% endif %}
+
+    {% if post.image3 %}
+    <div class='img_cont'>
+      <div>
+        <a href="/images/{{post.image3.name}}">{{post.image3.name|slice:"2:"|truncatechars:19}}
+          {{post.image3.width}}x{{post.image3.height}}</a>
+      </div><img class='post_img' src='/images/thumbnails/{{post.image3.name}}' data-alt_name='/images/{{post.image3.name}}' alt='{{post.image3.name|slice:"2:"}}' />
+    </div>
+    {% endif %}
+
+    {% if post.image4 %}
+    <div class='img_cont'>
+      <div>
+        <a href="/images/{{post.image4.name}}">{{post.image4.name|slice:"2:"|truncatechars:19}}
+          {{post.image4.width}}x{{post.image4.height}}</a>
+      </div><img class='post_img' src='/images/thumbnails/{{post.image4.name}}' data-alt_name='/images/{{post.image4.name}}' alt='{{post.image4.name|slice:"2:"}}' />
     </div>
     {% endif %}
     {{post.text}}
